@@ -1,4 +1,4 @@
-figma.showUI(__html__, { width: 316, height: 420 });
+figma.showUI(__html__, { width: 316, height: 480 });
 if (figma.currentPage.selection.length > 0) {
     figma.ui.postMessage([figma.currentPage.selection[0].width, figma.currentPage.selection[0].height]);
 }
@@ -14,23 +14,30 @@ figma.ui.onmessage = sizes => {
     const nodes = [];
     const mirror = figma.createFrame();
     mirror.resizeWithoutConstraints(a, b);
-    mirror.x = 150;
     mirror.fills = [{ type: 'SOLID', color: { r: 0, g: 0, b: 0 } }];
     figma.currentPage.appendChild(mirror);
     nodes.push(mirror);
     if (figma.currentPage.selection.length === 0) {
         const target = figma.createRectangle();
+        if (sizes['center'] == true) {
+            target.x = Math.round((a - sizes['target-width']) / 2);
+            target.y = Math.round((b - sizes['target-height']) / 2);
+        }
         target.resizeWithoutConstraints(sizes['target-width'], sizes['target-height']);
-        target.x = Math.round((a - sizes['target-width']) / 2);
-        target.y = Math.round((b - sizes['target-height']) / 2);
         target.fills = [{ type: 'SOLID', color: { r: 0.5, g: 0.5, b: 0.5 } }];
         mirror.appendChild(target);
     }
     else {
         mirror.x = figma.currentPage.selection[0].x;
         mirror.y = figma.currentPage.selection[0].y;
-        figma.currentPage.selection[0].x = Math.round((a - sizes['target-width']) / 2);
-        figma.currentPage.selection[0].y = Math.round((b - sizes['target-height']) / 2);
+        if (sizes['center'] == true) {
+            figma.currentPage.selection[0].x = Math.round((a - sizes['target-width']) / 2);
+            figma.currentPage.selection[0].y = Math.round((b - sizes['target-height']) / 2);
+        }
+        else {
+            figma.currentPage.selection[0].x = 0;
+            figma.currentPage.selection[0].y = 0;
+        }
         mirror.appendChild(figma.currentPage.selection[0]);
     }
     figma.currentPage.selection = nodes;

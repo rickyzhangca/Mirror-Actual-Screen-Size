@@ -65,7 +65,12 @@
         </div>
     </div>
     <b id="errors"></b>
-    <div style="height:20px;"></div>
+    <div style="height:8px;"></div>
+    <div class="checkbox">
+        <input id="center" type="checkbox" class="checkbox__box" checked>
+        <label for="center" class="checkbox__label">Center the target screen</label>
+    </div>
+    <div style="height:8px;"></div>
     <button class='button button--primary' style="width:100%">Create Artboard for Figma Mirror</button>
     <a href="https://www.ios-resolution.com/" target="_blank">
         <button class='button button--tertiary' style="width:100%">All iOS Screens</button>
@@ -99,15 +104,17 @@
 
         var dict = {};
 
-        dict['target-width'] = parseFloat(document.querySelector('#target-width').value)
-        dict['target-height'] = parseFloat(document.querySelector('#target-height').value)
-        dict['target-inch'] = parseFloat(document.querySelector('#target-inch').value)
+        dict['target-width'] = parseFloat(document.querySelector('#target-width').value);
+        dict['target-height'] = parseFloat(document.querySelector('#target-height').value);
+        dict['target-inch'] = parseFloat(document.querySelector('#target-inch').value);
 
-        dict['mirror-width'] = parseFloat(document.querySelector('#mirror-width').value)
-        dict['mirror-height'] = parseFloat(document.querySelector('#mirror-height').value)
-        dict['mirror-inch'] = parseFloat(document.querySelector('#mirror-inch').value)
+        dict['mirror-width'] = parseFloat(document.querySelector('#mirror-width').value);
+        dict['mirror-height'] = parseFloat(document.querySelector('#mirror-height').value);
+        dict['mirror-inch'] = parseFloat(document.querySelector('#mirror-inch').value);
 
-        parent.postMessage({ pluginMessage: dict }, '*')
+        dict['center'] = document.querySelector('#center').checked;
+
+        parent.postMessage({ pluginMessage: dict }, '*');
     }
 
     onmessage = (event) => {
@@ -920,12 +927,13 @@
     color: var(--black8);
     display: flex;
     font-family: var(--font-stack);
-    font-size: var(--font-size-xsmall);
+    font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
     line-height: var(--font-line-height);
     letter-spacing: var(--font-letter-spacing-pos-xsmall);
-    margin-left: -16px;
-    padding: 0 var(--size-xsmall) 0 var(--size-small);
+    /* margin-left: -16px; */
+    /* padding: 0 var(--size-xsmall) 0 var(--size-small); */ 
+    padding: 0px;
     height: 100%;
     -webkit-user-select: none;
         -moz-user-select: none;
